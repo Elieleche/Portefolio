@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import emailjs from '@emailjs/browser';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -408,7 +409,11 @@ export default function App() {
     }
   };
 
-  const handleContactSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+  const handleContactSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const trimmedName = formState.name.trim();
     const trimmedEmail = formState.email.trim();
@@ -425,12 +430,37 @@ export default function App() {
       return;
     }
 
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      setFormError(
+        "Le service d'envoi EmailJS n'est pas encore configuré. Vous pouvez m'écrire directement à eliechardin5@gmail.com."
+      );
+      return;
+    }
+
     setFormError(null);
     setFormStatus('submitting');
 
-    window.setTimeout(() => {
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: trimmedName,
+          from_email: trimmedEmail,
+          reply_to: trimmedEmail,
+          name: trimmedName,
+          email: trimmedEmail,
+          message: trimmedMessage,
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
       setFormStatus('sent');
-    }, 300);
+    } catch {
+      setFormStatus('idle');
+      setFormError(
+        "Une erreur est survenue lors de l'envoi. Vous pouvez réessayer ou m'écrire directement à eliechardin5@gmail.com."
+      );
+    }
   };
 
   const resetContactForm = () => {
@@ -1116,35 +1146,35 @@ export default function App() {
                   <div className="space-y-3">
                     <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#15803D] dark:text-[#4ADE80]">
                       <CheckCircle2 className="h-5 w-5" />
-                      <span>Message prêt à être transmis</span>
+                      <span>Message envoyé</span>
                     </div>
                     <h3 className="text-xl font-semibold text-[#111827] dark:text-[#F3F4F6]">
-                      Merci {formState.name}, votre message a bien été enregistré.
+                      Merci {formState.name}, votre message a bien été envoyé.
                     </h3>
                     <p className="text-sm leading-relaxed text-[#4B5563] dark:text-[#9CA3AF]">
-                      Vous pouvez ouvrir directement votre client mail pour finaliser l’envoi vers{' '}
+                      Je vous répondrai rapidement à{' '}
                       <span className="font-mono text-[#111827] dark:text-[#F3F4F6]">
-                        eliechardin5@gmail.com
-                      </span>{' '}
-                      ou rédiger un autre message.
+                        {formState.email}
+                      </span>
+                      . Vous pouvez également envoyer un autre message si besoin.
                     </p>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={resetContactForm}
+                      className="inline-flex min-h-[44px] items-center rounded-lg bg-[#2563EB] px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-[#1D4ED8]"
+                    >
+                      Envoyer un nouveau message
+                    </button>
                     <a
                       href={mailtoHref}
-                      className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-[#2563EB] px-5 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-[#1D4ED8]"
+                      className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-[#E5E7EB] px-4 py-2.5 text-sm font-medium text-[#111827] transition-all duration-200 hover:border-[#D1D5DB] dark:border-[#222630] dark:text-[#F3F4F6] dark:hover:border-[#374151]"
                     >
                       <Mail className="h-4 w-4" />
                       <span>Ouvrir dans mon client mail</span>
                     </a>
-                    <button
-                      type="button"
-                      onClick={resetContactForm}
-                      className="inline-flex min-h-[44px] items-center rounded-lg border border-[#E5E7EB] px-4 py-2.5 text-sm font-medium text-[#111827] transition-all duration-200 hover:border-[#D1D5DB] dark:border-[#222630] dark:text-[#F3F4F6] dark:hover:border-[#374151]"
-                    >
-                      Envoyer un nouveau message
-                    </button>
                   </div>
                 </div>
               ) : (
@@ -1231,7 +1261,7 @@ export default function App() {
                     >
                       <Send className="h-4 w-4" />
                       <span>
-                        {formStatus === 'submitting' ? 'Préparation...' : 'Envoyer le message'}
+                        {formStatus === 'submitting' ? 'Envoi en cours...' : 'Envoyer le message'}
                       </span>
                     </button>
                   </div>
