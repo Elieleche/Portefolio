@@ -432,7 +432,7 @@ export default function App() {
 
     if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
       setFormError(
-        "Le service d'envoi EmailJS n'est pas encore configuré. Vous pouvez m'écrire directement à eliechardin5@gmail.com."
+        "Le service d'envoi EmailJS n'est pas encore configuré. Vous pouvez m'écrire directement à eliechardin.dev@gmail.com."
       );
       return;
     }
@@ -458,7 +458,7 @@ export default function App() {
     } catch {
       setFormStatus('idle');
       setFormError(
-        "Une erreur est survenue lors de l'envoi. Vous pouvez réessayer ou m'écrire directement à eliechardin5@gmail.com."
+        "Une erreur est survenue lors de l'envoi. Vous pouvez réessayer ou m'écrire directement à eliechardin.dev@gmail.com."
       );
     }
   };
@@ -469,7 +469,7 @@ export default function App() {
     setFormStatus('idle');
   };
 
-  const mailtoHref = `mailto:eliechardin5@gmail.com?subject=${encodeURIComponent(
+  const mailtoHref = `mailto:eliechardin.dev@gmail.com?subject=${encodeURIComponent(
     `Prise de contact — ${formState.name || 'Recrutement / Stage'}`
   )}&body=${encodeURIComponent(
     `${formState.message}\n\n---\nDe : ${formState.name} (${formState.email})`
@@ -1056,15 +1056,15 @@ export default function App() {
                     <div className="min-w-0">
                       <div className="text-xs text-[#4B5563] dark:text-[#9CA3AF]">Email</div>
                       <a
-                        href="mailto:eliechardin5@gmail.com"
+                        href="mailto:eliechardin.dev@gmail.com"
                         className="mt-0.5 block truncate font-mono text-sm font-medium text-[#111827] hover:text-[#2563EB] dark:text-[#F3F4F6] dark:hover:text-[#60A5FA]"
                       >
-                        eliechardin5@gmail.com
+                        eliechardin.dev@gmail.com
                       </a>
                     </div>
                     <button
                       type="button"
-                      onClick={() => handleCopy('eliechardin5@gmail.com', 'email')}
+                      onClick={() => handleCopy('eliechardin.dev@gmail.com', 'email')}
                       aria-label="Copier l'adresse email"
                       className="inline-flex min-h-[40px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-[#E5E7EB] bg-[#FAFAFA] px-3 py-1.5 text-xs font-medium text-[#111827] transition-all duration-200 hover:border-[#D1D5DB] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB] dark:border-[#222630] dark:bg-[#0B0D11] dark:text-[#F3F4F6] dark:hover:border-[#374151]"
                     >
@@ -1281,11 +1281,11 @@ export default function App() {
           </div>
           <div className="flex flex-wrap items-center gap-5">
             <a
-              href="mailto:eliechardin5@gmail.com"
+              href="mailto:eliechardin.dev@gmail.com"
               className="inline-flex items-center gap-1.5 hover:text-[#111827] dark:hover:text-[#F3F4F6]"
             >
               <Mail className="h-3.5 w-3.5" />
-              <span>eliechardin5@gmail.com</span>
+              <span>eliechardin.dev@gmail.com</span>
             </a>
             <a
               href="tel:+33766558919"
