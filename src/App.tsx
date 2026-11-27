@@ -490,7 +490,7 @@ export default function App() {
             </button>
 
             <a
-              href="/cv-elie-chardin.pdf"
+              href={`${import.meta.env.BASE_URL}CV-Elie-Chardin.pdf`}
               download="CV-Elie-Chardin.pdf"
               className="hidden h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-lg bg-[#111827] px-4 text-sm font-medium text-white transition-all duration-200 hover:bg-[#1F2937] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB] sm:inline-flex dark:bg-[#2563EB] dark:hover:bg-[#1D4ED8]"
             >
@@ -525,7 +525,7 @@ export default function App() {
                 </a>
               ))}
               <a
-                href="/cv-elie-chardin.pdf"
+                href={`${import.meta.env.BASE_URL}CV-Elie-Chardin.pdf`}
                 download="CV-Elie-Chardin.pdf"
                 onClick={() => setMobileMenuOpen(false)}
                 className="mt-2 flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-4 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#1D4ED8] sm:hidden"
